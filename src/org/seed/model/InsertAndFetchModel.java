@@ -19,6 +19,7 @@ public class InsertAndFetchModel {
 	int i;
 	List<Module> moduleList = new ArrayList<Module>();
 	Boolean bool = false;
+	Module module=new Module();
 
 	public String insertModule(Module module) {
 		String name = module.getModuleName();
@@ -45,6 +46,24 @@ public class InsertAndFetchModel {
 		}
 		return "Record inserted successfully";
 
+	}
+	public Module individualmoduleFetch(int id){
+		String sql = "select * from modules where id="+id;
+		try {
+			PreparedStatement stmt=con.prepareStatement(sql);
+			ResultSet rs= stmt.executeQuery();
+			while(rs.next()){
+				module.setModuleCode(rs.getString("moduleCode"));
+				module.setModuleName(rs.getString("moduleName"));
+				module.setNoOfHours(rs.getInt("noOfHours"));
+				module.setStatus(rs.getString("status"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return module;
+		
 	}
 
 	public boolean isModuleCodeExists(String moduleCode) {

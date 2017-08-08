@@ -17,23 +17,26 @@
 </head>
 <body>
 	<script>
-	$(document).ready(function() {
-	    var t = $('#example').DataTable( {
-	        "columnDefs": [ {
-	            "searchable": false,
-	            "orderable": false,
-	            "targets": 0
-	        } ],
-	        "order": [[ 1, 'asc' ]]
-	    } );
-	 
-	    t.on( 'order.dt search.dt', function () {
-	        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-	            cell.innerHTML = i+1;
-	        } );
-	    } ).draw();
-	} );
-</script>
+		$(document).ready(function() {
+			var t = $('#example').DataTable({
+				"columnDefs" : [ {
+					"searchable" : false,
+					"orderable" : false,
+					"targets" : 0
+				} ],
+				"order" : [ [ 1, 'asc' ] ]
+			});
+
+			t.on('order.dt search.dt', function() {
+				t.column(0, {
+					search : 'applied',
+					order : 'applied'
+				}).nodes().each(function(cell, i) {
+					cell.innerHTML = i + 1;
+				});
+			}).draw();
+		});
+	</script>
 </body>
 <a href="CreateModule.jsp" class="btn btn-info" role="button">Create
 	Module</a>|
@@ -52,25 +55,36 @@
 					<th>ModuleCode</th>
 					<th>ModuleName</th>
 					<th>NoOfHours</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				<% 
-					  List<Module> list=(List)request.getAttribute("Modules");
-				     if(list!=null){
-					  Iterator it=  list.iterator();
-					  while(it.hasNext()){
-						  Module module=(Module)it.next();
-					  
-                %>
-				<tr>
-					
-					<td><%= module.getModuleCode() %></td>
-					<td><%= module.getModuleName() %></td>
-					<td><%= module.getNoOfHours() %></td>
-				</tr>
-				<% 
-					  }
-				     }
+				<%
+					List<Module> list = (List) request.getAttribute("Modules");
+					if (list != null) {
+						Iterator it = list.iterator();
+						while (it.hasNext()) {
+							Module module = (Module) it.next();
 				%>
+				<tr>
+					<td></td>
+					<td><%=module.getModuleCode()%></td>
+					<td><%=module.getModuleName()%></td>
+					<td><%=module.getNoOfHours()%></td>
+					<td><%= module.getId() %></td>
+					<%
+					 System.out.print(module.getId()+" ");
+					request.setAttribute("id", module.getId());  
+						}} 
+					%>
+				
+			</tbody>
+		</table>
+		<!-- <td><a
+			href="http://localhost:8080/ModuleManagement/ModuleRegisterAndFetchServlet?editModule=edit">edit
+
+		</a> <a
+			href="http://localhost:8080/ModuleManagement/ModuleRegisterAndFetchServlet?deleteModule=delete">Delete
+
+		</a></td> -->
 </html>

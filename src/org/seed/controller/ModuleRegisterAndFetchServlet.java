@@ -1,6 +1,7 @@
 package org.seed.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,6 +37,49 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		String fvname = request.getParameter("updateForm");
+		String vname = request.getParameter("viewName");
+		String funame=request.getParameter("editModule");
+		String fdname=request.getParameter("deleteModule");
+		System.out.println(fvname + " " + vname);
+		/* if (fvname != null||vname!=null) { */
+
+		if(funame!=null){
+			if(funame.equals("edit")){
+				int id=(int) request.getAttribute("id");
+				module=model.individualmoduleFetch(id);
+				request.setAttribute("module", module);
+				RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
+				rd.forward(request, response);
+			}
+		}
+		
+		if (fvname != null) {
+			if (fvname.equals("updateModule")) {
+				String mcode = request.getParameter("mcode");
+				String mname = request.getParameter("mname");
+				String hours = request.getParameter("mhours");
+				String check = request.getParameter("status");
+				module.setModuleCode(mcode);
+				module.setModuleName(mname);
+				module.setNoOfHours(Integer.parseInt(hours));
+				module.setStatus(check);
+				model.updateModule(module);
+				
+			}
+		}
+		if (vname != null) {
+			if (vname.equals("viewModule")) {
+				List<Module> modules = model.fetchModules();
+				request.setAttribute("Modules", modules);
+				if (modules != null) {
+					System.out.println(modules.toString());
+					RequestDispatcher rd = request.getRequestDispatcher("/ViewModule.jsp");
+					rd.forward(request, response);
+				}
+
+			}
+		}
 	}
 
 	/**
@@ -55,8 +99,7 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 		if (code.equals(true)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/CreateModule.jsp");
 			rd.forward(request, response);
-		}
-		else if (checkName.equals(true)) {
+		} else if (checkName.equals(true)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/CreateModule.jsp");
 			rd.forward(request, response);
 		} else {

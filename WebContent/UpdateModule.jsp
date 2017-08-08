@@ -1,3 +1,4 @@
+<%@page import="org.seed.bean.Module"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -48,20 +49,25 @@ button {
 <form action="ModuleregisterAndViewServlet">
 <input type="hidden" name="updateForm" value="uForm"/>
   
+<% 
+ Module module= (Module)request.getAttribute("module");
 
+%>
   <div class="container">
     <label><b>Module Code</b></label>
-    <input type="text" placeholder="Enter module Code" value="" name="mcode" required>
+    <input type="text" placeholder="Enter module Code" value="<%= module.getModuleCode() %>" name="mcode" required>
 
     <label><b>Module Name</b></label>
-    <input type="text" placeholder="Enter module Name" value="" name="mname" required>
+    <input type="text" placeholder="Enter module Name" value="<%= module.getModuleName() %>" name="mname" required>
         
     <label><b>No Of Hours</b></label>
-    <input type="text" placeholder="Enter no of hours" value="" name="mhours" required>
+    <input type="text" placeholder="Enter no of hours" value="<%= module.getNoOfHours() %>" name="mhours" required>
+    
+    
     
     <button type="submit" >Update Module</button>
     <button type="reset">Reset</button>
-    <input type="checkbox" checked="checked"> Is Module Active
+    <input type="checkbox" value="<%= module.getStatus() %>" name="mstatus"> Is Module Active
   </div>
 
   
