@@ -46,7 +46,14 @@
 
 <div class="container">
 	<h2>Table</h2>
-
+	<%
+		String moduleDelete = request.getParameter("moduleDelete");
+		if (moduleDelete != null) {
+	%>
+	Data deleted successfully
+	<%
+		}
+	%>
 	<div class="table-responsive">
 		<table id="example" class="table">
 			<thead>
@@ -60,9 +67,17 @@
 			</thead>
 			<tbody>
 				<%
-					List<Module> list = (List) request.getAttribute("Modules");
-					if (list != null) {
-						Iterator it = list.iterator();
+					List<Module> list = (List) session.getAttribute("Modules");
+					List<Module> deleteList = (List) request.getAttribute("afterDelete");
+					Iterator it=null;
+					if (list != null || (deleteList != null)) {
+						if (list != null)
+							it = list.iterator();
+						if(deleteList!=null){
+							System.out.print(deleteList.toString());
+							it = deleteList.iterator();
+						}
+
 						while (it.hasNext()) {
 							Module module = (Module) it.next();
 				%>
@@ -71,11 +86,19 @@
 					<td><%=module.getModuleCode()%></td>
 					<td><%=module.getModuleName()%></td>
 					<td><%=module.getNoOfHours()%></td>
-					<td><%= module.getId() %></td>
+					<td><a
+						href="ModuleRegisterAndFetchServlet?updateModule=
+						<%=module.getId()%>"
+						class="btn btn-success btn-lg"> <span
+							class="glyphicon glyphicon-edit"></span>Edit
+					</a>|<a
+						href="ModuleRegisterAndFetchServlet?deleteModule=
+						<%=module.getId()%>"
+						class="btn btn-success btn-lg"> <span
+							class="glyphicon glyphicon-delete"></span>Delete</td>
 					<%
-					 System.out.print(module.getId()+" ");
-					request.setAttribute("id", module.getId());  
-						}} 
+						}
+						}
 					%>
 				
 			</tbody>

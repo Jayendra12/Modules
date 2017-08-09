@@ -57,6 +57,7 @@ public class InsertAndFetchModel {
 				module.setModuleName(rs.getString("moduleName"));
 				module.setNoOfHours(rs.getInt("noOfHours"));
 				module.setStatus(rs.getString("status"));
+				module.setId(rs.getInt("id"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -153,12 +154,13 @@ public class InsertAndFetchModel {
 				module.setStatus(status);
 				module.setModuleDate(d);
 				moduleList.add(module);
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		log.debug(moduleList.toString());
+		log.debug(moduleList.size());
 		return moduleList;
 	}
 
