@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript" src="module.js"></script>
 <style>
 body {
 	background-image: url("paper.gif");
@@ -51,47 +52,97 @@ button {
 <body>
 
 	<h2>Module Form</h2>
-	<% 
- String message= request.getParameter("update");
-if(message!=null){
-	
-%>
+	<%
+		String message = request.getParameter("update");
+		if (message != null) {
+	%>
 	<h3>Data Updated Successfully</h3>
-	<% 
-}
-%>
+	<%
+		}
+	%>
 	<form action="ModuleRegisterAndFetchServlet">
 
 
-		<% 
- Module module= (Module)request.getAttribute("module");
-		if(module!=null){
- System.out.print(module.getId());
-%>
-		<input type="hidden" name="updateForm" value="<%= module.getId() %>" />
+		<%
+			Module module = (Module) request.getAttribute("module");
+			if (module != null) {
+				System.out.print(module.getId());
+		%>
+		<input type="hidden" name="updateForm" value="<%=module.getId()%>" />
+		<%
+			Boolean bcode = (Boolean) request.getAttribute("code1");
+			if (bcode != null) {
+				if (bcode.equals(true)) {
+		%>
+		module code already exists!
+		<%
+			}
+			}
+		%>
 		<div class="container">
-			<label><b>Module Code</b></label> <input type="text"
-				placeholder="Enter module Code"
-				value="<%= module.getModuleCode() %>" name="mcode" required>
 
-			<label><b>Module Name</b></label> <input type="text"
-				placeholder="Enter module Name"
-				value="<%= module.getModuleName() %>" name="mname" required>
+			<font color="red">
+				<DIV id="vcode"></DIV>
+			</font>
+			<div class="form-group">
+				<div class="col-md-4 inputGroupContainer">
+					<div class="input-group">
+						<input type="text" placeholder="Enter module Code"
+							value="<%=module.getModuleCode()%>" name="mcode1" required>
+					</div>
+				</div>
+			</div>
 
-			<label><b>No Of Hours</b></label> <input type="text"
-				placeholder="Enter no of hours" value="<%= module.getNoOfHours() %>"
-				name="mhours" required>
 
-			
+			<%
+			Boolean bcheck = (Boolean) request.getAttribute("moduleCheck1");
+			if (bcheck != null) {
+				if (bcheck.equals(true)) {
+		%>
+			module name and hours already exists!
+			<%
+			}
+			}
+		%>
+
+			<font color="red">
+				<DIV id="vname"></DIV>
+			</font>
+			<div class="form-group">
+				<div class="col-md-4 inputGroupContainer">
+					<div class="input-group">
+						<input type="text" placeholder="Enter module Name"
+							value="<%=module.getModuleName()%>" name="mname1" required>
+						<label><b>No Of Hours</b></label>
+					</div>
+				</div>
+			</div>
+
+
+
+			<font color="red">
+				<DIV id="vhours"></DIV>
+			</font>
+			<div class="form-group">
+				<div class="col-md-4 inputGroupContainer">
+					<div class="input-group">
+						<input type="text" placeholder="Enter no of hours" id="vhours"
+							onkeypress="return isNumberKey(event)"
+							value="<%=module.getNoOfHours()%>" name="mhours1" required>
+					</div>
+				</div>
+			</div>
+
 
 			<button type="submit">Update Module</button>
 			<button type="reset">Reset</button>
 			<input type="checkbox" name="mstatus"> Is Module Active
 		</div>
 
-<% 
-		}
-%>
+		<%
+			}
+		%>
+
 	</form>
 
 </body>

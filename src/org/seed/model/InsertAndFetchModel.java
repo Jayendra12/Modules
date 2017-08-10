@@ -17,7 +17,7 @@ public class InsertAndFetchModel {
 	Connection con = Connectivity.connect();
 	private static Logger log = Logger.getLogger(InsertAndFetchModel.class);
 	int i;
-	List<Module> moduleList = new ArrayList<Module>();
+	
 	Boolean bool = false;
 	Module module=new Module();
 
@@ -96,15 +96,17 @@ public class InsertAndFetchModel {
 		String name = module.getModuleName();
 		String status = module.getStatus();
 		int noOfHours = module.getNoOfHours();
+		String code=module.getModuleCode();
 		int id = module.getId();
 
-		String sql = "Update modules set modulename=?, noOfhours=?,status=? where id=?";
+		String sql = "Update modules set moduleCode=?,modulename=?, noOfhours=?,status=? where id=?";
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, name);
-			stmt.setInt(2, noOfHours);
-			stmt.setString(3, status);
-			stmt.setInt(4, id);
+			stmt.setString(1, code);
+			stmt.setString(2, name);
+			stmt.setInt(3, noOfHours);
+			stmt.setString(4, status);
+			stmt.setInt(5, id);
 			i = stmt.executeUpdate();
 			log.debug("data updated succesfully");
 
@@ -134,6 +136,7 @@ public class InsertAndFetchModel {
 	}
 
 	public List<Module> fetchModules() {
+		List<Module> moduleList = new ArrayList<Module>();
 		PropertyConfigurator.configure("Z:/scts81/ModuleManagement/log4j.properties");
 		String sql = "select * from modules order by moduleDate";
 		try {

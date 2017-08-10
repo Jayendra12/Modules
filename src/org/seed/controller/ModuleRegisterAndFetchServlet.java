@@ -52,10 +52,24 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 		String vname = request.getParameter("viewName");
 		String funame = request.getParameter("updateModule");
 		String deleteName = request.getParameter("deleteModule");
+		String moduleCode = request.getParameter("mcode1");
+		String moduleName = request.getParameter("mname1");
+		String moduleHours = request.getParameter("mhours1");
+		Boolean code1 = model.isModuleCodeExists(moduleCode);
+		Boolean checkName1 = model.isModuleNameAndHoursUnique(moduleName, Integer.parseInt(moduleHours));
+		request.setAttribute("moduleCheck1", checkName1);
+		request.setAttribute("code1", code1);
 
 		log.debug(fupdatename + " " + vname + " " + funame);
 		/* if (fvname != null||vname!=null) { */
 		/* individual module fetch */
+		if (code1.equals(true)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
+			rd.forward(request, response);
+		} else if (checkName1.equals(true)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
+			rd.forward(request, response);
+		}
 		if (funame != null) {
 			module = model.individualmoduleFetch(Integer.parseInt(funame));
 			request.setAttribute("module", module);
@@ -93,12 +107,11 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 		if (vname != null) {
 			if (vname.equals("viewModule")) {
 				List<Module> modules = model.fetchModules();
-				session.setAttribute("Modules", modules);
+				request.setAttribute("Modules", modules);
 				if (modules != null) {
 					System.out.println(modules.toString());
-				/*	RequestDispatcher rd = request.getRequestDispatcher("/ViewModule.jsp");
-					rd.forward(request, response);*/
-					response.sendRedirect("/ViewModule.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("/ViewModule.jsp");
+					rd.forward(request, response);
 				}
 
 			}

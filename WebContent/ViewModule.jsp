@@ -67,7 +67,7 @@
 			</thead>
 			<tbody>
 				<%
-					List<Module> list = (List) session.getAttribute("Modules");
+					List<Module> list = (List) request.getAttribute("Modules");
 					List<Module> deleteList = (List) request.getAttribute("afterDelete");
 					Iterator it=null;
 					if (list != null || (deleteList != null)) {

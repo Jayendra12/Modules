@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript" src="module.js"></script>
 <style>
 body {
 	background-image: url("paper.gif");
@@ -59,43 +60,72 @@ button {
 	%>
 	<h2>Module Form</h2>
 
-	<form action="ModuleRegisterAndFetchServlet" name="myForm"
-		method="post">
+	<form action="ModuleRegisterAndFetchServlet" name="emp" method="post"
+		onsubmit="return validate_form();">
 
 
-		<div class="container">
-			<label><b>Module Code</b></label><br>
-			<%
-				Boolean bcode = (Boolean) request.getAttribute("code");
-				if (bcode != null) {
-					if (bcode.equals(true)) {
-			%>
-			module code already exists!
-			<%
-				}
-				}
-			%>
-			<input type="text" placeholder="Enter module Code" name="mcode"
-				required> <label><b>Module Name</b></label> <br>
-			<%
-				Boolean bcheck = (Boolean) request.getAttribute("moduleCheck");
-				if (bcheck != null) {
-					if (bcheck.equals(true)) {
-			%>
-			module name and hours already exists!
-			<%
-				}
-				}
-			%>
 
-			<input type="text" placeholder="Enter module Name" name="mname"
-				required> <label><b>No Of Hours</b></label> <input
-				type="text" placeholder="Enter no of hours" name="mhours" required>
+		<label><b>Module Code</b></label><br>
 
-			<button type="submit">Create Module</button>
-			<button type="reset">Reset</button>
-			<input type="checkbox" name="mstatus" checked="checked"> Is
-			Module Active
+		<%
+			Boolean bcode = (Boolean) request.getAttribute("code");
+			if (bcode != null) {
+				if (bcode.equals(true)) {
+		%>
+		module code already exists!
+		<%
+			}
+			}
+		%>
+
+		<div class="form-group">
+
+			<div class="col-md-4 inputGroupContainer">
+				<div class="input-group">
+					<input type="text" placeholder="Enter module Code" name="mcode"
+						required> <label><b>Module Name</b></label> <br>
+				</div>
+			</div>
+		</div>
+		<%
+			Boolean bcheck = (Boolean) request.getAttribute("moduleCheck");
+			if (bcheck != null) {
+				if (bcheck.equals(true)) {
+		%>
+		module name and hours already exists!
+		<%
+			}
+			}
+		%>
+		<font color="red">
+			<DIV id="vname"></DIV>
+		</font>
+		<div class="form-group">
+
+			<div class="col-md-4 inputGroupContainer">
+				<div class="input-group">
+					<input type="text" placeholder="Enter module Name"
+						onkeypress="return isStringKey(event)" name="mname" required>
+					<label><b>No Of Hours</b></label>
+
+				</div>
+			</div>
+		</div>
+		<font color="red">
+			<DIV id="vhours"></DIV>
+		</font>
+		<div class="form-group">
+			<div class="col-md-4 inputGroupContainer">
+				<div class="input-group">
+					<input type="text" placeholder="Enter no of hours"
+						onkeypress="return isNumberKey(event)" name="mhours" required>
+				</div>
+			</div>
+		</div>
+		<button type="submit">Create Module</button>
+		<button type="reset">Reset</button>
+		<input type="checkbox" name="mstatus" checked="checked"> Is
+		Module Active
 		</div>
 
 
