@@ -13,10 +13,11 @@ import java.sql.SQLException;
 * This connect method gives connection object
 */
 public class Connectivity {
-	public final static String DB_URL="jdbc:oracle:thin:@sharesrv:1521:orcl";
-	public final static  String DB_DRIVER="oracle.jdbc.driver.OracleDriver";
-	public final static String DB_USERNAME="spic";
-	public final static String DB_PASSWORD="spic";
+	public static final String DB_DRIVER = "oracle.jdbc.OracleDriver";
+	public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
+	public static final String DB_USER="system";
+	public static final String DB_PASS="jayendra";
+	private static Connection con;
 	
 	
 	/**
@@ -30,7 +31,7 @@ public class Connectivity {
 		Connection con = null;
 		try {
 			Class.forName(DB_DRIVER);
-		    con= DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+		    con= DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block

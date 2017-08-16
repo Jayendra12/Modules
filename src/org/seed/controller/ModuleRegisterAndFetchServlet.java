@@ -24,7 +24,6 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 	InsertAndFetchModel model = new InsertAndFetchModel();
 	int i;
 	private static Logger log = Logger.getLogger(ModuleRegisterAndFetchServlet.class);
-	
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -46,36 +45,17 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	    HttpSession session=request.getSession();
-		PropertyConfigurator.configure("Z:/scts81/ModuleManagement/log4j.properties");
+		HttpSession session = request.getSession();
+
 		String fupdatename = request.getParameter("updateForm");
 		String vname = request.getParameter("viewName");
 		String funame = request.getParameter("updateModule");
 		String deleteName = request.getParameter("deleteModule");
-		String moduleCode = request.getParameter("mcode1");
-		String moduleName = request.getParameter("mname1");
-		String moduleHours = request.getParameter("mhours1");
-		Boolean code1 = model.isModuleCodeExists(moduleCode);
-		Boolean checkName1 = model.isModuleNameAndHoursUnique(moduleName, Integer.parseInt(moduleHours));
-		request.setAttribute("moduleCheck1", checkName1);
-		request.setAttribute("code1", code1);
-
-		log.debug(fupdatename + " " + vname + " " + funame);
-		/* if (fvname != null||vname!=null) { */
-		/* individual module fetch */
-		if (code1.equals(true)) {
-			RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
-			rd.forward(request, response);
-		} else if (checkName1.equals(true)) {
-			RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
-			rd.forward(request, response);
-		}
-		if (funame != null) {
-			module = model.individualmoduleFetch(Integer.parseInt(funame));
-			request.setAttribute("module", module);
-			RequestDispatcher rd = request.getRequestDispatcher("UpdateModule.jsp");
-			rd.forward(request, response);
-		}
+		String moduleCode = module.getModuleCode();
+		String moduleName = module.getModuleName();
+		int moduleHours = module.getNoOfHours();
+		String status = request.getParameter("mstatus");
+		log.debug(fupdatename + " " + vname + " " + funame+" "+moduleCode+" "+moduleHours+" "+moduleName);
 		/* update module */
 		if (fupdatename != null) {
 
@@ -103,6 +83,31 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 			}
 
 		}
+		if (funame != null) {
+			module = model.individualmoduleFetch(Integer.parseInt(funame));
+			request.setAttribute("module", module);
+			RequestDispatcher rd = request.getRequestDispatcher("UpdateModule.jsp");
+			rd.forward(request, response);
+		}
+		if (moduleCode != null || moduleName != null || moduleName != null) {
+			Boolean code1 = model.isModuleCodeExists(moduleCode);
+			Boolean checkName1 = model.isModuleNameAndHoursUnique(moduleName,(moduleHours));
+			request.setAttribute("moduleCheck1", checkName1);
+			request.setAttribute("code1", code1);
+
+			/* if (fvname != null||vname!=null) { */
+			/* individual module fetch */
+			if (code1.equals(true)) {
+				RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
+				rd.forward(request, response);
+			} 
+			if (checkName1.equals(true)) {
+				RequestDispatcher rd = request.getRequestDispatcher("/UpdateModule.jsp");
+				rd.forward(request, response);
+			}
+		}
+		
+		
 		/* fetch all modules */
 		if (vname != null) {
 			if (vname.equals("viewModule")) {
@@ -127,7 +132,7 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("/ViewModule.jsp?moduleDelete=true");
 					rd.forward(request, response);
 				}
-				
+
 			}
 		}
 	}
@@ -138,7 +143,7 @@ public class ModuleRegisterAndFetchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PropertyConfigurator.configure("Z:/scts81/ModuleManagement/log4j.properties");
+
 		String moduleCode = request.getParameter("mcode");
 		String moduleName = request.getParameter("mname");
 		String moduleHours = request.getParameter("mhours");

@@ -60,7 +60,7 @@ button {
 	<%
 		}
 	%>
-	<form action="ModuleRegisterAndFetchServlet">
+	<form action="ModuleRegisterAndFetchServlet" method="get">
 
 
 		<%

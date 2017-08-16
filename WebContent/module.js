@@ -52,7 +52,7 @@ function isStringKey(evt) {
 
 	var pattern = new RegExp("[a-d1-7]");
 	var charCode = (evt.which) ? evt.which : event.keyCode;
-	document.write("inside string key");
+	/*document.write("inside string key");*/
 	var res = pattern.test(charcode);
 	if (true)
 		return true;
